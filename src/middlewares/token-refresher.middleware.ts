@@ -9,6 +9,6 @@ export default function (req: Request, res: Response<ResponseDto<any>>, next: Ne
 
     res.send({
         payload: res.locals._payload,
-        token: AuthService.generateToken(res.locals._whoami)
+        token: AuthService.generateToken(res.locals._whoami, res.locals._role)
     })
 }

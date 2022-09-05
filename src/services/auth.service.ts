@@ -6,6 +6,7 @@ import {AppErrorDto} from "../dto/app-error.dto";
 import jwt from "jsonwebtoken";
 import * as crypto from "crypto";
 import {HttpCode} from "../utils/http-code.enum";
+import {RoleEnum} from "../utils/role.enum";
 
 export class AuthService {
 
@@ -41,10 +42,11 @@ export class AuthService {
         return {
             email: user.email,
             username: user.username,
+            role: user.role
         } as AuthDto;
     }
 
-    public async login(dto: AuthDto): Promise<void> {
+    public async login(dto: AuthDto): Promise<RoleEnum> {
 
         if (!dto.username || !dto.password)
             throw new AppErrorDto("Auth parameter cannot be null", HttpCode.BAD_REQUEST);
@@ -60,12 +62,12 @@ export class AuthService {
         if (!this._validatePassword(dto.password, user.password, user.salt))
             throw new AppErrorDto("Wrong password", HttpCode.UNAUTHORIZED);
 
-        return;
+        return user.role;
     }
 
-    public static generateToken(username: string): string {
+    public static generateToken(username: string, role: RoleEnum): string {
         return jwt.sign(
-            {username},
+            {username, role: role.toString()},
             process.env.TOKEN_SECRET + '',
             {
                 expiresIn: process.env.TOKEN_VALIDITY + 's'

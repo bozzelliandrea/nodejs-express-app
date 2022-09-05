@@ -12,6 +12,7 @@ router.post('/register', (req: Request<{}, AuthDto, AuthDto>, res: Response<Auth
             res.status(HttpCode.CREATED);
             res.locals._payload = response;
             res.locals._whoami = response.username;
+            res.locals._role = req.body.role
             res.locals._processed = true;
             next();
         })
@@ -20,8 +21,9 @@ router.post('/register', (req: Request<{}, AuthDto, AuthDto>, res: Response<Auth
 
 router.post('/login', (req: Request<{}, {}, AuthDto>, res: Response<{}>, next: NextFunction) => {
     authService.login(req.body)
-        .then(() => {
-            res.locals._whoami = req.body.username
+        .then(role => {
+            res.locals._whoami = req.body.username;
+            res.locals._role = role;
             res.locals._processed = true;
             next();
         })

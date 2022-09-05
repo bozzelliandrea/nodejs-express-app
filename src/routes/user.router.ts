@@ -2,12 +2,13 @@ import {NextFunction, Router, Request, Response} from "express";
 import {UserDto} from "../dto/user.dto";
 import {UserService} from "../services/user.service";
 import {HttpCode} from "../utils/http-code.enum";
+import {adminRequired} from "../middlewares/auth-verify.middleware";
 
 const router = Router();
 const userService = new UserService();
 
 router.route('/')
-    .get((req: Request, res: Response, next: NextFunction) => {
+    .get(adminRequired, (req: Request, res: Response, next: NextFunction) => {
         userService.getAll()
             .then(response => {
                 res.locals._payload = response;

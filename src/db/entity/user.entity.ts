@@ -1,5 +1,6 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Task} from "./task.entity";
+import {RoleEnum} from "../../utils/role.enum";
 
 @Entity()
 export class User {
@@ -18,6 +19,13 @@ export class User {
 
     @Column()
     public salt: string;
+
+    @Column({
+        type: "enum",
+        enum: RoleEnum,
+        default: RoleEnum.User,
+    })
+    public role: RoleEnum;
 
     @OneToMany(() => Task, (task: Task) => task.assignee)
     public tasks: Task[];
