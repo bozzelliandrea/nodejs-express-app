@@ -1,7 +1,7 @@
 {
-  "name": "nearform",
+  "name": "nodejs-express-example-app",
   "version": "1.0.0",
-  "description": "Nearform interview",
+  "description": "NodeJS app example",
   "main": "src/server.ts",
   "scripts": {
     "start": "ts-node index.ts",
