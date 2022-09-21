@@ -4,7 +4,7 @@ import {AuthService} from "../services/auth.service";
 
 export default function (req: Request, res: Response<ResponseDto<any>>, next: NextFunction) {
     if (!res.locals._whoami) {
-        next();
+        throw new AppErrorDto("User not logged", HttpCode.UNAUTHORIZED);
     }
 
     res.send({
